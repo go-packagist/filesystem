@@ -17,6 +17,6 @@ import "github.com/go-packagist/filesystem"
 
 func main() {
     filesystem.Get("/path/filename.txt")
-    ……
+    // ……
 }
 ```
