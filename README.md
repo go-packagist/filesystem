@@ -1,6 +1,6 @@
 # filesystem
 
-[![Go](https://github.com/go-packagist/cache/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/go-packagist/cache/actions/workflows/go.yml)
+[![Go](https://github.com/go-packagist/filesystem/actions/workflows/go.yml/badge.svg)](https://github.com/go-packagist/filesystem/actions/workflows/go.yml)
 
 > 未完结版
 
