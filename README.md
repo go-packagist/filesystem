@@ -15,10 +15,22 @@ go get github.com/go-packagist/filesystem
 ```go
 package main
 
-import "github.com/go-packagist/filesystem"
+import (
+	"fmt"
+	"github.com/go-packagist/filesystem"
+)
 
 func main() {
-    filesystem.Get("/path/filename.txt")
-    // ……
+	fs := filesystem.NewManager(&filesystem.Config{
+		Default: "local",
+		Disk: map[string]interface{}{
+			"local": &filesystem.LocalDriveConfig{
+				Root: "temp",
+			},
+		},
+	})
+
+	fmt.Println(fs.Disk("local").Exists("test.txt"))
 }
+
 ```
