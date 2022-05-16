@@ -13,14 +13,14 @@ func Exists(path string) bool {
 }
 
 // Size file size
-func Size(path string) int64 {
+func Size(path string) (int64, error) {
 	info, err := Stat(path)
 
 	if err != nil {
-		return 0
+		return 0, err
 	}
 
-	return info.Size()
+	return info.Size(), nil
 }
 
 // IsDir checks if a path is a directory

@@ -23,9 +23,9 @@ func TestFileSystem_Stat(t *testing.T) {
 }
 
 func TestFileSystem_Size(t *testing.T) {
-	size := Size("./temp/base.txt")
+	size, _ := Size("./temp/base.txt")
 
-	assert.Equal(t, size, int64(4))
+	assert.Equal(t, int64(4), size)
 }
 
 func TestFileSystem_IsDirOrFile(t *testing.T) {
