@@ -2,11 +2,13 @@ package filesystem
 
 import "time"
 
+// LocalDrive is a local filesystem drive.
 type LocalDrive struct {
 	config   *LocalDriveConfig
 	prefixer *PathPrefixer
 }
 
+// LocalDriveConfig is the configuration for a local filesystem drive.
 type LocalDriveConfig struct {
 	Root string
 }

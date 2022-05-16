@@ -7,6 +7,7 @@ import (
 
 type Manager struct {
 	config *Config
+	disks  map[string]Drive
 }
 
 type Config struct {
@@ -30,26 +31,42 @@ type Drive interface {
 	AllFiles(directory string) ([]string, error)
 }
 
-var disks map[string]Drive
-
+// NewManager creates a new filesystem manager
+//
+// 	fs := filesystem.NewManager(&filesystem.Config{
+// 		Default: "local",
+// 		Disk: map[string]interface{}{
+// 			"local": &filesystem.LocalDriveConfig{
+// 				Root: "temp",
+// 			},
+// 		},
+// 	})
+//
+// 	fmt.Println(fs.Disk("local").Exists("test.txt"))
+//
 func NewManager(config *Config) *Manager {
 	return &Manager{
 		config: config,
 	}
 }
 
+// Drive returns a filesystem drive; alias Disk
+// fs.Drive("local")
 func (m *Manager) Drive(name string) Drive {
 	return m.Disk(name)
 }
 
+// Disk returns a filesystem drive
+// fs.Disk("local")
 func (m *Manager) Disk(name string) Drive {
-	if disk, ok := disks[name]; ok {
+	if disk, ok := m.disks[name]; ok {
 		return disk
 	}
 
 	return m.resolve(name)
 }
 
+// resolve returns a filesystem drive
 func (m *Manager) resolve(name string) Drive {
 	config, err := m.getConfig(name)
 
@@ -59,12 +76,13 @@ func (m *Manager) resolve(name string) Drive {
 
 	switch config.(type) {
 	case *LocalDriveConfig:
-		return m.createLocalDrive(config.(*LocalDriveConfig))
+		return m.CreateLocalDrive(config.(*LocalDriveConfig))
 	default:
 		panic(fmt.Sprintf("Unknown drive type: %s", name))
 	}
 }
 
+// getConfig returns a filesystem drive configuration
 func (m *Manager) getConfig(name string) (interface{}, error) {
 	if config, ok := m.config.Disk[name]; ok {
 		return config, nil
@@ -73,6 +91,7 @@ func (m *Manager) getConfig(name string) (interface{}, error) {
 	return nil, fmt.Errorf("config [%s] not found", name)
 }
 
-func (m *Manager) createLocalDrive(config *LocalDriveConfig) Drive {
+// CreateLocalDrive creates a local filesystem drive
+func (m *Manager) CreateLocalDrive(config *LocalDriveConfig) Drive {
 	return NewLocalDrive(config)
 }
