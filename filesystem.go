@@ -36,7 +36,13 @@ func IsDir(path string) bool {
 
 // IsFile checks if a path is a file
 func IsFile(path string) bool {
-	return !IsDir(path)
+	info, err := Stat(path)
+
+	if err != nil {
+		return false
+	}
+
+	return !info.IsDir()
 }
 
 // FileInfo file info, alias Stat
@@ -85,7 +91,7 @@ func ReadFile(path string) (string, error) {
 	return string(content), nil
 }
 
-func WriteFile(path string, data []byte) error {
+func WriteFile(path, content string) error {
 	return nil
 }
 
