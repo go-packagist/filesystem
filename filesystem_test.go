@@ -45,23 +45,33 @@ func TestFileSystem_IsDirOrFile(t *testing.T) {
 func TestFileSystem_ReadDir(t *testing.T) {
 	files, _ := ReadDir("./temp/")
 
-	assert.Equal(t, len(files), 2)
-	assert.Equal(t, files[0].Name(), "base.txt")
+	assert.Equal(t, 2, len(files))
+	assert.Equal(t, "base.txt", files[0].Name())
 }
 
 func TestFileSystem_ScanDir(t *testing.T) {
 	files, _ := ScanDir("./temp/")
 
-	assert.Equal(t, len(files), 2)
-	assert.Equal(t, files[0].Name(), "base.txt")
+	assert.Equal(t, 2, len(files))
+	assert.Equal(t, "base.txt", files[0].Name())
 }
 
 func TestFileSystem_ReadFile(t *testing.T) {
 	content1, err1 := ReadFile("./temp/base.txt")
 	content2, err2 := ReadFile("./temp/none.txt")
 
-	assert.Equal(t, content1, "base")
-	assert.Equal(t, content2, "")
-	assert.Equal(t, err1, nil)
+	assert.Equal(t, "base", content1)
+	assert.Equal(t, "", content2)
+	assert.Equal(t, nil, err1)
 	assert.Error(t, err2)
+}
+
+func TestFileSystem_WriteFile(t *testing.T) {
+	body := "tests1"
+
+	err := WriteFile("./temp/write.txt", body)
+	assert.Equal(t, nil, err)
+
+	content, _ := ReadFile("./temp/write.txt")
+	assert.Equal(t, body, content)
 }

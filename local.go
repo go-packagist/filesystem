@@ -15,6 +15,7 @@ type LocalDriveConfig struct {
 
 var _ Drive = (*LocalDrive)(nil)
 
+// NewLocalDrive creates a new local filesystem drive.
 func NewLocalDrive(config *LocalDriveConfig) Drive {
 	return &LocalDrive{
 		config:   config,
@@ -22,48 +23,43 @@ func NewLocalDrive(config *LocalDriveConfig) Drive {
 	}
 }
 
+// Exists checks if the given path exists.
 func (l *LocalDrive) Exists(path string) bool {
 	return Exists(l.prefixer.PrefixPath(path))
 }
 
+// Get returns the contents of the given path.
 func (l *LocalDrive) Get(path string) (string, error) {
-	// TODO implement me
-	panic("implement me")
+	return Get(l.prefixer.PrefixPath(path))
 }
 
+// Put writes the given data to the given path.
 func (l LocalDrive) Put(path, contents string) error {
-	// TODO implement me
-	panic("implement me")
+	return Put(l.prefixer.PrefixPath(path), contents)
 }
 
 func (l LocalDrive) Prepend(path, contents string) error {
-	// TODO implement me
-	panic("implement me")
+	return Prepend(l.prefixer.PrefixPath(path), contents)
 }
 
 func (l LocalDrive) Append(path, contents string) error {
-	// TODO implement me
-	panic("implement me")
+	return Append(l.prefixer.PrefixPath(path), contents)
 }
 
 func (l LocalDrive) Delete(path string) error {
-	// TODO implement me
-	panic("implement me")
+	return Delete(l.prefixer.PrefixPath(path))
 }
 
 func (l LocalDrive) Copy(from, to string) error {
-	// TODO implement me
-	panic("implement me")
+	return Copy(l.prefixer.PrefixPath(from), l.prefixer.PrefixPath(to))
 }
 
 func (l LocalDrive) Move(from, to string) error {
-	// TODO implement me
-	panic("implement me")
+	return l.Rename(from, to)
 }
 
 func (l LocalDrive) Rename(from, to string) error {
-	// TODO implement me
-	panic("implement me")
+	return Rename(l.prefixer.PrefixPath(from), l.prefixer.PrefixPath(to))
 }
 
 func (l LocalDrive) Size(path string) (int64, error) {
@@ -71,8 +67,7 @@ func (l LocalDrive) Size(path string) (int64, error) {
 }
 
 func (l LocalDrive) LastModified(path string) (time.Time, error) {
-	// TODO implement me
-	panic("implement me")
+	return LastModified(l.prefixer.PrefixPath(path))
 }
 
 func (l LocalDrive) Files(directory string) ([]string, error) {

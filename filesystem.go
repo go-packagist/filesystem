@@ -3,6 +3,7 @@ package filesystem
 import (
 	"io/ioutil"
 	"os"
+	"time"
 )
 
 // Exists checks if a file or directory exists
@@ -91,30 +92,74 @@ func ReadFile(path string) (string, error) {
 	return string(content), nil
 }
 
+func Put(path, content string) error {
+	return WriteFile(path, content)
+}
+
 func WriteFile(path, content string) error {
-	return nil
+	return ioutil.WriteFile(path, []byte(content), 0644)
 }
 
 func Mkdir(path string) error {
-	return nil
+	return os.Mkdir(path, 0755)
 }
 
-func MkdirAll(path string) error {
-	return nil
+func Delete(path string) error {
+	return Remove(path)
 }
 
 func Remove(path string) error {
-	return nil
+	return os.Remove(path)
 }
 
-func RemoveAll(path string) error {
-	return nil
+func Move(src, dst string) error {
+	return Rename(src, dst)
 }
 
-func Rename(oldpath, newpath string) error {
-	return nil
+func Rename(src, dst string) error {
+	return os.Rename(src, dst)
 }
 
-func ReadDirNames(path string) ([]string, error) {
-	return nil, nil
+func Prepend(path, contents string) error {
+	oldContents, err := Read(path)
+
+	if err != nil {
+		return err
+	}
+
+	return WriteFile(path, contents+oldContents)
+}
+
+func Append(path, contents string) error {
+	oldContents, err := Read(path)
+
+	if err != nil {
+		return err
+	}
+
+	return WriteFile(path, oldContents+contents)
+}
+
+func Copy(src, dst string) error {
+	return CopyFile(src, dst)
+}
+
+func CopyFile(src, dst string) error {
+	contents, err := ReadFile(src)
+
+	if err != nil {
+		return err
+	}
+
+	return WriteFile(dst, contents)
+}
+
+func LastModified(path string) (time.Time, error) {
+	fileinfo, err := Stat(path)
+
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return fileinfo.ModTime(), nil
 }
