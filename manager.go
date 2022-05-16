@@ -62,7 +62,6 @@ func (m *Manager) resolve(name string) Drive {
 		return m.createLocalDrive(config.(*LocalDriveConfig))
 	default:
 		panic(fmt.Sprintf("Unknown drive type: %s", name))
-		return nil
 	}
 }
 
