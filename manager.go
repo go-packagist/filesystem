@@ -74,9 +74,9 @@ func (m *Manager) resolve(name string) Drive {
 		panic(err)
 	}
 
-	switch config.(type) {
+	switch c := config.(type) {
 	case *LocalDriveConfig:
-		return m.CreateLocalDrive(config.(*LocalDriveConfig))
+		return m.CreateLocalDrive(c)
 	default:
 		panic(fmt.Sprintf("Unknown drive type: %s", name))
 	}
