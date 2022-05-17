@@ -61,11 +61,6 @@ func Stat(path string) (os.FileInfo, error) {
 	return os.Stat(path)
 }
 
-// ScanDir scan directory, alias ReadDir
-func ScanDir(path string) ([]os.FileInfo, error) {
-	return ReadDir(path)
-}
-
 // ReadDir read directory
 func ReadDir(path string) ([]os.FileInfo, error) {
 	return ioutil.ReadDir(path)

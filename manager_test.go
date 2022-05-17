@@ -53,4 +53,11 @@ func TestManager_Local(t *testing.T) {
 	m.Disk("local").Delete("none-file.txt")
 	assert.False(t, m.Disk("local").Exists("none-file.txt"))
 
+	// Files
+	files, _ := m.Disk("local").Files("files")
+	assert.Equal(t, []string{"files/.txt", "files/1.txt", "files/2.txt"}, files)
+
+	// AllFiles
+	allFiles, _ := m.Disk("local").AllFiles("files")
+	assert.Equal(t, []string{"files/.txt", "files/1.txt", "files/2.txt", "files/dir1/.txt", "files/dir1/1.txt"}, allFiles)
 }
