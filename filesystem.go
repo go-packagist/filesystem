@@ -51,4 +51,5 @@ func IsLocal(path string) bool {
 
 func Put(path, contents string, lock bool) error {
 	// todo
+	return error(nil)
 }
